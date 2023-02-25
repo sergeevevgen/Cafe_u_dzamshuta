@@ -19,5 +19,5 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Order_Status status;
-    private Double sum;
+    private Double price;
 }

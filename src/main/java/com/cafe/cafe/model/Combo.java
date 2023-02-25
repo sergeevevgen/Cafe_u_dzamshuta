@@ -17,4 +17,9 @@ public class Combo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String name;
+    private String description;
+    private String image_url;
+    private Double sale;
+    private Double price;
 }
