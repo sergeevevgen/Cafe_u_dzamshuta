@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Time;
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -20,10 +18,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String text;
-
-    //Какой тип данных использовать для времени?
-    private Time time;
-
+    private Long time;
     private Long first_sender_id;
     private Long second_sender_id;
 }
