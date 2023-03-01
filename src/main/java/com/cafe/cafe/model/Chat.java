@@ -1,10 +1,12 @@
 package com.cafe.cafe.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,14 +16,17 @@ import java.util.List;
 public class Chat {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String title;
-    @OneToOne
-    @JoinColumn(name = "order_fk")
-    private Order order;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @NotBlank
+    @Column(nullable = false)
+    private String title;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "chat_fk")
-    private List<Message> messageList;
+    private List<Message> messages = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    private Order order;
 }

@@ -21,6 +21,10 @@ dependencies {
 
 	//web-security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+
+	//validation
+	implementation 'org.hibernate.validator:hibernate-validator'
 
 	//jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
