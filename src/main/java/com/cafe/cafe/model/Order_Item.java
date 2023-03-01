@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product_Order {
+public class Order_Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

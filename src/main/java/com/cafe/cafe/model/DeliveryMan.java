@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeliveryMan {
 
+    //Done
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -35,7 +36,111 @@ public class DeliveryMan {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany
+    //done
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "deliveryman_fk")
     private List<Order> orders = new ArrayList<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public void setOrder(Order order){
+        if(!orders.contains(order))
+        {
+            orders.add(order);
+            if(order.getDeliveryMan() != this)
+            {
+                order.setDeliveryMan(this);
+            }
+        }
+    }
+
+    public Order removeOrder(Long orderId) {
+        for (var order : orders) {
+            if (Objects.equals(order.getId(), orderId)){
+                orders.remove(order);
+                return order;
+            }
+        }
+        return null;
+    }
+
+    public void removeAllOrders() {
+        orders.clear();
+    }
+
+    public void updateOrder(Order o) {
+        for (var order : orders) {
+            if(Objects.equals(order.getId(), o.getId())) {
+                order = o;
+                return;
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "DeliveryMan{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", orders=" + orders +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DeliveryMan that = (DeliveryMan) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, surname, email, password, orders);
+    }
 }
