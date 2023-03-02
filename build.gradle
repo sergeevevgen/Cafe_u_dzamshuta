@@ -21,7 +21,7 @@ dependencies {
 
 	//web-security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	//implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:1'
 
 	//thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

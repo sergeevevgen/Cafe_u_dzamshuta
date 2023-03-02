@@ -3,17 +3,18 @@ package com.cafe.cafe.model;
 import com.cafe.cafe.model.enums.Order_Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "client_order")
 public class Order {
 
     @Id
@@ -44,8 +45,26 @@ public class Order {
 
     //done, items will delete when order
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_fk")
     private List<Order_Item> items = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_fk")
+    private List<Combo> combos = new ArrayList<>();
+
+    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Chat chat;
+
+    public Chat getChat() {
+        return chat;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
+        if (chat.getOrder() != this) {
+            chat.setOrder(this);
+        }
+    }
 
     public Long getId() {
         return id;
@@ -115,28 +134,73 @@ public class Order {
         return k;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", status=" + status +
-                ", price=" + price +
-                ", client=" + client +
-                ", deliveryMan=" + deliveryMan +
-                ", title='" + title + '\'' +
-                '}';
+    public List<Order_Item> getItems() {
+        return items;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(id, order.id);
+    public void setItems(List<Order_Item> items) {
+        this.items = items;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, status, price, client, deliveryMan, title);
+    public List<Combo> getCombos() {
+        return combos;
+    }
+
+    public void setCombos(List<Combo> combos) {
+        this.combos = combos;
+    }
+
+    public void updateCombo(Combo c) {
+        for (var m : combos) {
+            if (Objects.equals(m.getId(), c.getId())) {
+                m = c;
+                return;
+            }
+        }
+    }
+    public Combo removeCombo(Long id) {
+        for (var c : combos) {
+            if (Objects.equals(c.getId(), id)) {
+                combos.remove(c);
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public void setCombo(Combo combo) {
+        if (!combos.contains(combo)) {
+            combos.add(combo);
+            if (combo.getOrder() != this) {
+                combo.setOrder(this);
+            }
+        }
+    }
+
+    public void updateItems(Order_Item item) {
+        for (var i : items) {
+            if (Objects.equals(i.getId(), item.getId())) {
+                i = item;
+                return;
+            }
+        }
+    }
+    public Order_Item removeItems(Long id) {
+        for (var i : items) {
+            if (Objects.equals(i.getId(), id)) {
+                items.remove(i);
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public void setItem(Order_Item item) {
+        if (!items.contains(item)) {
+            items.add(item);
+            if (item.getOrder() != this) {
+                item.setOrder(this);
+            }
+        }
     }
 }

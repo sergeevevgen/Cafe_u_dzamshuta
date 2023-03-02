@@ -2,13 +2,13 @@ package com.cafe.cafe.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Objects;
 
 @Entity
+@EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message {
@@ -89,29 +89,5 @@ public class Message {
     public void removeChat() {
         chat.removeMessage(getId());
         chat = null;
-    }
-
-    @Override
-    public String toString() {
-        return "Message{" +
-                "text='" + text + '\'' +
-                ", time=" + time +
-                ", first_sender_id=" + first_sender_id +
-                ", second_sender_id=" + second_sender_id +
-                ", chat=" + chat +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Message message = (Message) o;
-        return Objects.equals(id, message.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, text, time, first_sender_id, second_sender_id, chat);
     }
 }

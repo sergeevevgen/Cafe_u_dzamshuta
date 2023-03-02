@@ -3,17 +3,20 @@ package com.cafe.cafe.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Chat {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,6 +32,7 @@ public class Chat {
     private List<Message> messages = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     public void updateMessage(Message message) {
@@ -84,27 +88,5 @@ public class Chat {
 
     public void setOrder(Order order) {
         this.order = order;
-    }
-
-    @Override
-    public String toString() {
-        return "Chat{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", messages=" + messages +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Chat chat = (Chat) o;
-        return Objects.equals(id, chat.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, messages);
     }
 }

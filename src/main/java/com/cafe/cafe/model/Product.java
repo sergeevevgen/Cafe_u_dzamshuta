@@ -2,14 +2,14 @@ package com.cafe.cafe.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@EqualsAndHashCode
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
@@ -32,13 +32,19 @@ public class Product {
 
     private Double price;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_fk")
     private List<Order_Item> items;
 
     //Done
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_fk")
     private Category category;
+
+    //Done
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "combo_fk")
+    private Combo combo;
 
     public Long getId() {
         return id;
@@ -108,30 +114,19 @@ public class Product {
         category = null;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", image_url='" + image_url + '\'' +
-                ", weight=" + weight +
-                ", price=" + price +
-                ", items=" + items +
-                ", category=" + category +
-                '}';
+    public Combo getCombo() {
+        return combo;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return Objects.equals(id, product.id);
+    public void setCombo(Combo combo) {
+        this.combo = combo;
+        if (!combo.getProducts().contains(this)) {
+            combo.setProduct(this);
+        }
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, image_url, weight, price, items, category);
+    public void removeCombo() {
+        combo.removeProduct(getId());
+        combo = null;
     }
 }
