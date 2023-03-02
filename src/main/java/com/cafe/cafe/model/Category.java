@@ -6,14 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class Category {
 
+    //Done
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -28,17 +30,10 @@ public class Product {
 
     private String image_url;
 
-    private Long weight;
-
-    private Double price;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Order_Item> items;
-
-    //Done
-    @ManyToOne(fetch = FetchType.LAZY)
+    //done, messages will delete when order
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "category_fk")
-    private Category category;
+    private List<Product> products = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -68,57 +63,50 @@ public class Product {
         this.image_url = image_url;
     }
 
-    public Long getWeight() {
-        return weight;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setWeight(Long weight) {
-        this.weight = weight;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
-    public Double getPrice() {
-        return price;
+    public void updateProduct(Product product) {
+        for (var p : products) {
+            if (Objects.equals(p.getId(), product.getId())) {
+                p = product;
+                return;
+            }
+        }
+    }
+    public Product removeProduct(Long id) {
+        for (var p : products) {
+            if (Objects.equals(p.getId(), id)) {
+                products.remove(p);
+                return p;
+            }
+        }
+        return null;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public List<Order_Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Order_Item> items) {
-        this.items = items;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-        if (!category.getProducts().contains(this)) {
-            category.setProduct(this);
+    public void setProduct(Product product) {
+        if (!products.contains(product)) {
+            products.add(product);
+            if (product.getCategory() != this) {
+                product.setCategory(this);
+            }
         }
     }
 
-    public void removeCategory() {
-        category.removeProduct(getId());
-        category = null;
-    }
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", image_url='" + image_url + '\'' +
-                ", weight=" + weight +
-                ", price=" + price +
-                ", items=" + items +
-                ", category=" + category +
+                ", products=" + products +
                 '}';
     }
 
@@ -126,12 +114,12 @@ public class Product {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return Objects.equals(id, product.id);
+        Category category = (Category) o;
+        return Objects.equals(id, category.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, image_url, weight, price, items, category);
+        return Objects.hash(id, name, description, image_url, products);
     }
 }

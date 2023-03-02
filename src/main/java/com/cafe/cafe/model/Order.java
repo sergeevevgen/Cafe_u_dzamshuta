@@ -42,42 +42,10 @@ public class Order {
     @Column(nullable = false)
     private String title;
 
-    //done, messages will delete when order
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "order_fk")
-    private List<Message> messages = new ArrayList<>();
-
     //done, items will delete when order
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "order_id")
     private List<Order_Item> items = new ArrayList<>();
-
-    public void updateMessage(Long id, Message message) {
-        for (var m : messages) {
-            if (Objects.equals(m.getId(), message.getId())) {
-                m = message;
-                return;
-            }
-        }
-    }
-    public Message removeMessage(Long id) {
-        for (var message : messages) {
-            if (Objects.equals(message.getId(), id)) {
-                messages.remove(message);
-                return message;
-            }
-        }
-        return null;
-    }
-
-    public void setMessage(Message message) {
-        if (!messages.contains(message)) {
-            messages.add(message);
-            if (message.getOrder() != this) {
-                message.setOrder(this);
-            }
-        }
-    }
 
     public Long getId() {
         return id;
@@ -139,14 +107,6 @@ public class Order {
         this.title = title;
     }
 
-    public List<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
-
     public Integer getCount() {
         int k = 0;
         for (var i : items) {
@@ -164,7 +124,6 @@ public class Order {
                 ", client=" + client +
                 ", deliveryMan=" + deliveryMan +
                 ", title='" + title + '\'' +
-                ", messages=" + messages +
                 '}';
     }
 
@@ -178,8 +137,6 @@ public class Order {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, status, price, client, deliveryMan, title, messages);
+        return Objects.hash(id, status, price, client, deliveryMan, title);
     }
-
-
 }

@@ -15,14 +15,14 @@ public class Order_Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    //ref???
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id", nullable = false, updatable = false)
     private Product product;
 
     //ref???
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
-    private Long count;
+
+    private Integer count;
 }

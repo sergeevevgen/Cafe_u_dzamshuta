@@ -13,6 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Message {
 
+    //Done
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -33,9 +34,10 @@ public class Message {
     @Column(nullable = false)
     private Long second_sender_id;
 
+    //Done
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_fk")
-    private Order order;
+    @JoinColumn(name = "chat_fk")
+    private Chat chat;
 
     public Long getId() {
         return id;
@@ -73,22 +75,20 @@ public class Message {
         this.second_sender_id = second_sender_id;
     }
 
-    public Order getOrder() {
-        return order;
+    public Chat getChat() {
+        return chat;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
-        if (!order.getMessages().contains(this)) {
-            order.setMessage(this);
+    public void setChat(Chat chat) {
+        this.chat = chat;
+        if (!chat.getMessages().contains(this)) {
+            chat.setMessage(this);
         }
     }
 
-    public void removeOrder() {
-        if (order.removeMessage(getId()) != null) {
-            order.removeMessage(getId());
-        }
-        order = null;
+    public void removeChat() {
+        chat.removeMessage(getId());
+        chat = null;
     }
 
     @Override
@@ -98,7 +98,7 @@ public class Message {
                 ", time=" + time +
                 ", first_sender_id=" + first_sender_id +
                 ", second_sender_id=" + second_sender_id +
-                ", order=" + order +
+                ", chat=" + chat +
                 '}';
     }
 
@@ -112,6 +112,6 @@ public class Message {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, time, first_sender_id, second_sender_id, order);
+        return Objects.hash(id, text, time, first_sender_id, second_sender_id, chat);
     }
 }

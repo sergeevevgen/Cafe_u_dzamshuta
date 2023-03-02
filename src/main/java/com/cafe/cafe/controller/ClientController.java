@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class ClientController {
-    private final ClientService service;
+    //private final ClientService service;
 
 }
