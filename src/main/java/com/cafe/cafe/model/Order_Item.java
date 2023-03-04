@@ -1,6 +1,7 @@
 package com.cafe.cafe.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,8 +1,8 @@
 package com.cafe.cafe.model;
 
 import com.cafe.cafe.model.enums.Order_Status;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.ArrayList;
