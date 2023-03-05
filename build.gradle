@@ -17,6 +17,7 @@ dependencies {
 	implementation project(path: ':admin')
 	implementation project(path: ':client')
 	implementation project(path: ':manager')
+	implementation project(path: ':data')
 
 	implementation 'org.springframework.boot:spring-boot-starter'
 
