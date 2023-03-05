@@ -19,6 +19,6 @@ public class LoginController {
 
     @GetMapping("/")
     public String index() {
-        return "sadasda";
+        return "<h1>sadasda</h1>";
     }
 }
