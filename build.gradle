@@ -13,6 +13,10 @@ repositories {
 }
 
 dependencies {
+	// my project dependencies
+	implementation project(path: ':admin')
+	implementation project(path: ':client')
+	implementation project(path: ':manager')
 
 	implementation 'org.springframework.boot:spring-boot-starter'
 
