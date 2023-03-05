@@ -1,24 +1,35 @@
 package rest.controller;
 
-import data.dto.LoginDto;
 import data.service.LoginService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import rest.UserService;
 
+@Component
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/")
 public class LoginController {
 
-    private final LoginService loginService;
+    private final UserService loginService;
 
-    public LoginController(LoginService loginService) {
+    public LoginController(UserService loginService) {
         this.loginService = loginService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/a")
     public String index() {
         return "<h1>sadasda</h1>";
+    }
+
+    @GetMapping("/b")
+    public String sad() {
+        return "<h2>sadasda</h2>";
+    }
+
+    @GetMapping("/c")
+    public String cad() {
+        return "<h1>asd</h1>";
     }
 }

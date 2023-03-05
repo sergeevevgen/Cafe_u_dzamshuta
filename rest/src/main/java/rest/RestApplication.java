@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableJpaRepositories(basePackages = "data")
 @EntityScan(basePackages = "data")
-@ComponentScan(basePackages = { "data" })
+@ComponentScan(basePackages = { "rest" })
 @SpringBootApplication
 public class RestApplication {
     public static void main(String[] args) {

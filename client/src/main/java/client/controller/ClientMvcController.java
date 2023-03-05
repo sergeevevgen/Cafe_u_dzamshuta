@@ -1,11 +1,14 @@
 package client.controller;
 
-import data.service.UserService;
+
+import client.UserService;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@Component
 @Controller
 @RequestMapping("/")
 public class ClientMvcController {
@@ -15,9 +18,9 @@ public class ClientMvcController {
         this.clientService = clientService;
     }
 
-    @GetMapping
+    @GetMapping("/a")
     public String login(Model model) {
 
-        return "login";
+        return "zhopa";
     }
 }
