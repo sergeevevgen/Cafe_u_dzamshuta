@@ -38,6 +38,6 @@ public class CategoryService {
 
     @Transactional
     public CategoryDto addCategory(CategoryDto categoryDto) {
-        return new CategoryDto(addCategory(categoryDto.get));
+        return new CategoryDto();
     }
 }
