@@ -1,1 +1,5 @@
 rootProject.name = 'cafe'
+include 'client'
+include 'admin'
+include 'manager'
+
