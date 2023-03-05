@@ -12,6 +12,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(path: ':data')
     implementation 'org.springframework.boot:spring-boot-starter'
 
     // web
