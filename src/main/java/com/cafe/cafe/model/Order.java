@@ -31,8 +31,8 @@ public class Order {
 
     //done
     @ManyToOne
-    @JoinColumn(name = "client_fk")
-    private Client client;
+    @JoinColumn(name = "user_fk")
+    private User user;
 
     //done
     @ManyToOne
@@ -86,20 +86,20 @@ public class Order {
         this.price = price;
     }
 
-    public Client getClient() {
-        return client;
+    public User getUser() {
+        return user;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
-        if (!client.getOrders().contains(this)) {
-            client.setOrder(this);
+    public void setUser(User user) {
+        this.user = user;
+        if (!user.getOrders().contains(this)) {
+            user.setOrder(this);
         }
     }
 
-    public void removeClient() {
-        client.removeOrder(getId());
-        client = null;
+    public void removeUser() {
+        user.removeOrder(getId());
+        user = null;
     }
 
     public void removeDeliveryMan() {

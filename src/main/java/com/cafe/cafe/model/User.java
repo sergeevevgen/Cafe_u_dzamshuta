@@ -3,18 +3,23 @@ package com.cafe.cafe.model;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import lombok.*;
+import javax.validation.constraints.Size;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import com.cafe.cafe.model.enums.UserRole;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.*;
 
 @Entity
 @EqualsAndHashCode
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeliveryMan {
+@Table(name = "client")
+public class User implements UserDetails {
 
     //Done
     @Id
@@ -35,14 +40,20 @@ public class DeliveryMan {
     private String login;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(nullable = false, length = 64)
+    @Size(min = 8, max = 64)
     private String password;
 
-    private String image_url;
+    @NotBlank
+    @Column(nullable = false)
+    private String address;
 
-    //done
+    @Enumerated(value = EnumType.STRING)
+    private UserRole role;
+
+    //Done
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "deliveryman_fk")
+    @JoinColumn(name = "user_fk")
     private List<Order> orders = new ArrayList<>();
 
     public Long getId() {
@@ -73,12 +84,50 @@ public class DeliveryMan {
         this.login = login;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority(role.name()));
+    }
+
     public String getPassword() {
         return password;
     }
 
+    @Override
+    public String getUsername() {
+        return login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public List<Order> getOrders() {
@@ -93,9 +142,9 @@ public class DeliveryMan {
         if(!orders.contains(order))
         {
             orders.add(order);
-            if(order.getDeliveryMan() != this)
+            if(order.getUser() != this)
             {
-                order.setDeliveryMan(this);
+                order.setUser(this);
             }
         }
     }
@@ -121,5 +170,13 @@ public class DeliveryMan {
                 return;
             }
         }
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }
