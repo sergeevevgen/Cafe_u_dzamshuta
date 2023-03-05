@@ -3,4 +3,5 @@ include 'client'
 include 'admin'
 include 'manager'
 include 'data'
+include 'rest'
 

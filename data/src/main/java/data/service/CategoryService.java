@@ -1,9 +1,9 @@
 package data.service;
 
-import com.cafe.cafe.model.dto.CategoryDto;
-import com.cafe.cafe.util.validation.ValidatorUtil;
+import data.dto.CategoryDto;
 import data.model.Category;
 import data.repository.CategoryRepository;
+import data.util.validation.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

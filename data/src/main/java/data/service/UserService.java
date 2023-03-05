@@ -1,7 +1,7 @@
 package data.service;
 
-import com.cafe.cafe.util.validation.ValidatorUtil;
 import data.repository.UserRepository;
+import data.util.validation.ValidatorUtil;
 import org.springframework.stereotype.Service;
 
 @Service
