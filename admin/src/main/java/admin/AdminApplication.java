@@ -1,6 +1,5 @@
 package admin;
 
-import data.model.Category;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
